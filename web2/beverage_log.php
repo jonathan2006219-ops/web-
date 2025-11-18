@@ -1,17 +1,17 @@
 <?php
 require 'db.php';
-require 'header.php';
+require 'header.php';   
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $student_or_room = trim($_POST['student_or_room']);
   $amount = floatval($_POST['amount']);
   $stmt = $pdo->prepare('SELECT id FROM residents WHERE student_no=? OR room_no=? LIMIT 1');
   $stmt->execute([$student_or_room, $student_or_room]);
-  $res = $stmt->fetch();
+  $res = $stmt->fetch();   
   $rid = $res ? $res['id'] : null;
   $ins = $pdo->prepare('INSERT INTO beverage_logs (resident_id, description, amount) VALUES (?, ?, ?)');
   $ins->execute([$rid, $student_or_room, $amount]);
-  echo '<div class="alert alert-success">已紀錄</div>';
+  echo '<div class="alert alert-success">已紀錄</div>';    
 }
 
 $logs = $pdo->query('SELECT b.*, r.student_no, r.room_no FROM beverage_logs b LEFT JOIN residents r ON b.resident_id = r.id ORDER BY b.created_at DESC LIMIT 50')->fetchAll();
@@ -19,7 +19,7 @@ $logs = $pdo->query('SELECT b.*, r.student_no, r.room_no FROM beverage_logs b LE
 <h3>飲料機吃錢紀錄</h3>
 <form method="post" class="mb-4">
   <div class="row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6 mb-3">    
       <input class="form-control" name="student_or_room" placeholder="學號或房號">
     </div>
     <div class="col-md-3 mb-3">
