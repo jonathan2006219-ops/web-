@@ -17,11 +17,12 @@ if (session_status() === PHP_SESSION_NONE) session_start();
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="index.php">報修</a></li>
         <li class="nav-item"><a class="nav-link" href="activity_list.php">活動管理</a></li>
-        <li class="nav-item"><a class="nav-link" href="beverage_log.php">飲料機紀錄</a></li>
+        <li class="nav-item"><a class="nav-link" href="beverage_log.php">飲料機吃錢紀錄</a></li>
       </ul>
       <ul class="navbar-nav">
         <?php if (!empty($_SESSION['user_id'])): ?>
           <li class="nav-item"><span class="nav-link">歡迎，<?=htmlspecialchars($_SESSION['username'])?></span></li>
+          <li class="nav-item"><a class="nav-link" href="resident_profile.php">我的資料</a></li>
           <li class="nav-item"><a class="nav-link" href="logout.php">登出</a></li>
         <?php else: ?>
           <li class="nav-item"><a class="nav-link" href="login.php">登入</a></li>

@@ -18,4 +18,19 @@ function require_admin() {
 function current_user_id() { return $_SESSION['user_id'] ?? null; }
 function current_user_role() { return $_SESSION['role'] ?? null; }
 function current_username() { return $_SESSION['username'] ?? null; }
+
+// CSRF helpers
+function csrf_token() {
+  if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+  return $_SESSION['csrf_token'];
+}
+
+function check_csrf($token) {
+  if (empty($token) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+    http_response_code(400);
+    die('CSRF token invalid');
+  }
+}
 ?>

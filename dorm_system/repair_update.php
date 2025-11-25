@@ -6,6 +6,8 @@ require_admin();
 
 $id = $_GET['id'] ?? null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // CSRF
+  check_csrf($_POST['csrf_token'] ?? '');
   $id = $_POST['id'];
   $status = $_POST['status'];
   $stmt = $pdo->prepare('UPDATE repairs SET status=?, updated_at=NOW() WHERE id=?');
@@ -20,6 +22,7 @@ $r = $repair->fetch();
 <h3>更新報修狀態</h3>
 <form method="post">
   <input type="hidden" name="id" value="<?=htmlspecialchars($r['id'])?>">
+  <input type="hidden" name="csrf_token" value="<?=htmlspecialchars(csrf_token())?>">
   <div class="mb-3">
     <label class="form-label">狀態</label>
     <select name="status" class="form-select">
